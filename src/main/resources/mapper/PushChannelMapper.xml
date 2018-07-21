@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyue.springbootmybatisgenerator.dal.mapper.PushChannelMapper">
+    <resultMap id="BaseResultMap" type="com.jiuyue.springbootmybatisgenerator.dal.model.PushChannelDO">
+        <id column="channel_id" jdbcType="BIGINT" property="channelId" />
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="package_name" jdbcType="VARCHAR" property="packageName" />
+        <result column="app_id" jdbcType="VARCHAR" property="appId" />
+        <result column="app_key" jdbcType="VARCHAR" property="appKey" />
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret" />
+        <result column="channel_type" jdbcType="VARCHAR" property="channelType" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="apply_name" jdbcType="VARCHAR" property="applyName" />
+        <result column="machine_type" jdbcType="TINYINT" property="machineType" />
+    </resultMap>
+
+    <sql id="Query_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                <trim prefix="(" prefixOverrides="and" suffix=")">
+                    <foreach collection="criteria.criteria" item="criterion">
+                        <choose>
+                            <when test="criterion.noValue">
+                                and ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                                and ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                                and ${criterion.condition}
+                            <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                #{listItem}
+                            </foreach>
+                            </when>
+                        </choose>
+                    </foreach>
+                </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Query_Where_Clause">
+        <where>
+            <foreach collection="query.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List">
+        channel_id,gmt_create,gmt_modified,package_name,app_id,app_key,app_secret,channel_type,status,apply_name,machine_type
+    </sql>
+
+    <select id="selectByQuery" parameterType="com.jiuyue.springbootmybatisgenerator.dal.query.PushChannelQuery" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+            from push_channel
+        <if test="_parameter != null">
+            <include refid="Query_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <include refid="MysqlDialectSuffix" />
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from push_channel where channel_id = #{channelId,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from push_channel where channel_id = #{channelId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByQuery" parameterType="com.jiuyue.springbootmybatisgenerator.dal.query.PushChannelQuery">
+        delete from push_channel
+        <if test="_parameter != null">
+            <include refid="Query_Where_Clause" />
+        </if>
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.jiuyue.springbootmybatisgenerator.dal.model.PushChannelDO">
+        <selectKey keyProperty="channelId" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into push_channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            gmt_create,gmt_modified,
+            <if test="packageName != null">
+                package_name,
+            </if>
+            <if test="appId != null">
+                app_id,
+            </if>
+            <if test="appKey != null">
+                app_key,
+            </if>
+            <if test="appSecret != null">
+                app_secret,
+            </if>
+            <if test="channelType != null">
+                channel_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="applyName != null">
+                apply_name,
+            </if>
+            <if test="machineType != null">
+                machine_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            now(),now(),
+            <if test="packageName != null">
+                #{packageName,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="appKey != null">
+                #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appSecret != null">
+                #{appSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="channelType != null">
+                #{channelType,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="applyName != null">
+                #{applyName,jdbcType=VARCHAR},
+            </if>
+            <if test="machineType != null">
+                #{machineType,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByQuery" parameterType="com.jiuyue.springbootmybatisgenerator.dal.query.PushChannelQuery" resultType="java.lang.Integer">
+        select count(*) from push_channel
+        <if test="_parameter != null">
+            <include refid="Query_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByQuerySelective" parameterType="map">
+        update push_channel
+        <set>
+            gmt_modified=now(),
+            <if test="record.packageName != null">
+                package_name = #{record.packageName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.appId != null">
+                app_id = #{record.appId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.appKey != null">
+                app_key = #{record.appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="record.appSecret != null">
+                app_secret = #{record.appSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="record.channelType != null">
+                channel_type = #{record.channelType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=TINYINT},
+            </if>
+            <if test="record.applyName != null">
+                apply_name = #{record.applyName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.machineType != null">
+                machine_type = #{record.machineType,jdbcType=TINYINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Query_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByQuery" parameterType="map">
+        update push_channel set
+        package_name = #{record.packageName,jdbcType=VARCHAR},
+        app_id = #{record.appId,jdbcType=VARCHAR},
+        app_key = #{record.appKey,jdbcType=VARCHAR},
+        app_secret = #{record.appSecret,jdbcType=VARCHAR},
+        channel_type = #{record.channelType,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=TINYINT},
+        apply_name = #{record.applyName,jdbcType=VARCHAR},
+        machine_type = #{record.machineType,jdbcType=TINYINT},
+        gmt_modified = now()
+        <if test="_parameter != null">
+            <include refid="Update_By_Query_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiuyue.springbootmybatisgenerator.dal.model.PushChannelDO">
+        update push_channel
+        <set>
+            gmt_modified=now(),
+            <if test="packageName != null">
+                package_name = #{packageName,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                app_id = #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="appKey != null">
+                app_key = #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appSecret != null">
+                app_secret = #{appSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="channelType != null">
+                channel_type = #{channelType,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="applyName != null">
+                apply_name = #{applyName,jdbcType=VARCHAR},
+            </if>
+            <if test="machineType != null">
+                machine_type = #{machineType,jdbcType=TINYINT},
+            </if>
+        </set>
+        where channel_id = #{channelId,jdbcType=BIGINT}
+    </update>
+
+    <sql id="MysqlDialectSuffix">
+        <if test="pageOffset &gt;= 0 and pageSize &gt; 0">
+            <![CDATA[ LIMIT #{pageOffset,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER} ]]>
+        </if>
+    </sql>
+
+</mapper>
