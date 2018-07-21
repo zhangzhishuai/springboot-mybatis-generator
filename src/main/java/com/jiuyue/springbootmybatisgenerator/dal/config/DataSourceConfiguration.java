@@ -23,7 +23,7 @@ import java.sql.SQLException;
  */
 @Slf4j
 @Configuration
-@MapperScan({"com.submarinegroup.push.dal.mapper", "com.lexus.dal.mapper"})
+@MapperScan({"com.jiuyue.springbootmybatisgenerator.dal.mapper"})
 @EnableConfigurationProperties({DataSourceProperties.class, DataSourceMybatisProperties.class})
 public class DataSourceConfiguration {
     @Autowired
